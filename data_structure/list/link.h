@@ -19,7 +19,7 @@ int List_Insert(Linklist &L,int i,int e)
 		p = p ->next;
 		++j;
 	}
-	if(!p || j > i - 1) return ERROR;
+	if(!(p->next) || j > i - 1) return ERROR;
 	s = (Linklist)malloc(sizeof(Lnode));
 	s->data = e;
 	s->next = p->next;

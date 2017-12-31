@@ -2,15 +2,15 @@
 #include <string.h>
 #define M 5
 #define N 10
-void sort(char *string[]){
+void sort(char (*p)[N]){
     int i,j;
     char *t;
     for(i = 1;i < M;++i){
         for(j = 0;j < M - i;++j){
-            if(strcmp(string[j],string[j+1]) > 0){
-                t = string[j];
-                string[j] = string[j+1];
-                string[j+1] = t;
+            if(strcmp(p[j],p[j+1]) > 0){
+                strcpy(t,p[j]);
+                strcpy(p[j],p[j+1]);
+                strcpy(p[j+1],t);
             }
         }
     }
@@ -18,18 +18,19 @@ void sort(char *string[]){
 int main()
 {
     char str[M][N];
-    static char *string[M];
+    char (*p)[N];
     int i;
-    
+
     for(i = 0;i < M;++i){
         printf("the %d:",i);
         scanf("%s",*(str + i));
     }
-    for(i = 0;i < M;++i){
-        string[i] = *(str + i);
-    }
-    sort(string);
+    p = str;
+    // for(i = 0;i < M;++i){
+    //     string[i] = *(str + i);
+    // }
+    sort(p);
     for(i = 0;i < M;++i)
-        printf("%s\n",string[i]);
+        printf("%s\n",p[i]);
 
 }

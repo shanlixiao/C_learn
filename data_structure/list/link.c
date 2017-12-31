@@ -36,11 +36,11 @@ int main()
           int i,e;
           printf("请输入你想插入的元素位置：");
           scanf("%d",&i);
-          if (i > List_Show_Length(L))
-            {
-              printf("error,元素位置大于表长\n");
-              break;
-            }
+          // if (i > List_Show_Length(L))
+          //   {
+          //     printf("error,元素位置大于表长\n");
+          //     break;
+          //   }
           printf("请输入你想在该位置插入的元素：");
           scanf("%d",&e);
           List_Insert(L,i,e);
