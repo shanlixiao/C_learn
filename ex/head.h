@@ -33,35 +33,3 @@ int show(link L,int n)
     printf("\n");
     return 0;
 }
-
-int Delete(link L,int n)
-{
-  link p,q;
-  q = p = L;
-  while(q->next != NULL)
-  {
-    q = q->next;
-    p = q;
-    while(p->next != NULL)
-    {
-      if(p->next->data == q->data)
-      {
-        p->next = p->next->next;
-      }
-      p = p->next;
-    }
-  }
-    return 0;
-}
-
-int main()
-{
-  link L;
-  int a;
-  printf("input the a:");
-  scanf("%d",&a);
-  create(L,a);
-  show(L,a);
-  Delete(L,a);
-  show(L,a);
-}

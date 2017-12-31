@@ -43,6 +43,30 @@ int connect(link &L,link &M,int a,int b)
     p->next = M->next;
     return 0;
 }
+int sort(link &L,int a)
+{
+  int i,j;
+  link p;
+  --a;
+  int b = a;
+  while(a)
+  {
+    p = L->next;
+    while(b)
+    {
+      if(p->data > p->next->data)
+      {
+        int t = p->data;
+        p->data = p->next->data;
+        p->next->data = t;
+      }
+      p = p->next;
+      --b;
+    }
+    --a;
+    b = a;
+  }
+}
 int main()
 {
     int a,b;
@@ -54,5 +78,8 @@ int main()
     show(L,a);
     show(M,b);
     connect(L,M,a,b);
+
+    show(L,a+b);
+    sort(L,a+b);
     show(L,a+b);
 }

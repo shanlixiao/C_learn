@@ -1,72 +1,87 @@
 #include <stdio.h>
-#include <stdlib.h>
-//堆调整，构建大顶堆，arr[]是待调整的数组，i是待调整的数组
-//元素的位置，length是数组的长度
-void HeapAdjust(int arr[], int i, int length)
+#include "head.h"
+
+void minheap_down(SqList &L, int start, int end)
 {
-    int Child;
-    int temp;
-    for(;2 * i + 1 < length; i = Child)
+    int c = start;			// 当前(current)节点的位置
+    int l = 2*c + 1;		// 左(left)孩子的位置
+    int tmp = L.r[c].key;			// 当前(current)节点的大小
+    for (; l <= end; c=l,l=2*l+1)
     {
-        //子节点的位置 = 2 * (parent(父结点)) + 1
-        Child = 2 * i + 1;
-        //得到子结点中较大的结点
-        if(Child < length - 1 && arr[Child + 1] > arr[Child])
-                ++Child;
-        //如果较大的子结点大于父结点那么把较大的子结点往上移动
-        //替换它的父结点
-        if(arr[i] < arr[Child])
+		// "l"是左孩子，"l+1"是右孩子
+        if ( l < end && L.r[l].key > L.r[l+1].key)
+            l++;		// 左右两孩子中选择较小者
+        if (tmp <= L.r[l].key)
+            break;		// 调整结束
+		else			// 交换值
         {
-            temp = arr[i];
-            arr[i] = arr[Child];
-            arr[Child] = temp;
+            L.r[c].key = L.r[l].key;
+            L.r[l].key = tmp;
         }
-        else
-                break;
-    }
-}
-//堆排序算法
-void HeapSort(int arr[], int length)
-{
-    int i;
-    //调整序列的前半部分元素，调整完之后第一个元素
-    //是序列的最大元素，length/2-1是最后一个非叶子结点
-    for(i = length/2 - 1; i >= 0; --i)
-            HeapAdjust(arr, i, length);
-    //从最后一个元素开始对序列进行调整，不断的缩小调整
-    //的范围直到第一个元素
-    //循环里是把第一个元素和当前的最后一个元素交换
-    //保证当前的最后一个位置的元素是现在这个序列的最大的
-    //不断的缩小调整heap的范围，每一次调整完毕保证第一个
-    //元素是当前序列的最大的元素
-    for(i = length - 1; i > 0; --i)
-    {
-        arr[i] = arr[0]^arr[i];
-        arr[0] = arr[0]^arr[i];
-        arr[i] = arr[0]^arr[i];
-        HeapAdjust(arr, 0, i);                      //递归调整
     }
 }
 
-int main()
+
+void heap_sort_desc(SqList &L, int n)
 {
     int i;
-    int num[] = {98, 48, 777, 63, 57, 433, 23, 1112, 1};
-    printf("==================堆排序==============\n");
-    printf("实质上是一颗完全二叉树，利用树的根结点\n与子节点的性质进行排序\n");
-    printf("======================================\n\n");
-    printf("待排序的数据是：\n");
-    for(i = 0; i < sizeof(num)/sizeof(int); i++)
+
+    for (i = n / 2 - 1; i >= 1; i--)
+        minheap_down(L, i, n-1);
+
+    for (i = n - 1; i > 1; i--)
     {
-        printf("%d ", num[i]);
+        // 交换L.r[0]和L.r[i]。交换后，L.r[i]是L.r[0...i]中最小的。
+		swap(L.r[1].key, L.r[i].key);
+		// 调整L.r[0...i-1]，使得L.r[0...i-1]仍然是一个最小堆。
+		// 即，保证L.r[i-1]是L.r[0...i-1]中的最小值。
+        minheap_down(L, 1, i-1);
     }
-    printf("\n");
-    HeapSort(num, sizeof(num)/sizeof(int));
-    printf("排序后的数据是：\n");
-    for(i = 0; i < sizeof(num)/sizeof(int); i++)
-    {
-        printf("%d ", num[i]);
-    }
-    printf("\n");
+}
+
+// void HeapAdjust(SqList &L, int i, int length)
+// {
+//     int Child;
+//     int temp;
+//     for(;2 * i + 1 < length; i = Child)
+//     {
+//         //子节点的位置 = 2 * (parent(父结点)) + 1
+//         Child = 2 * i + 1;
+//         //得到子结点中较大的结点
+//         if(Child < length - 1 && L.r[Child + 1].key > L.r[Child].key)
+//                 ++Child;
+//         //如果较大的子结点大于父结点那么把较大的子结点往上移动
+//         //替换它的父结点
+//         if(L.r[i].key < L.r[Child].key)
+//         {
+//             swap(L.r[i].key,L.r[Child].key);
+//         }
+//         else
+//                 break;
+//     }
+// }
+// //堆排序算法
+// void HeapSort(SqList &L, int length)
+// {
+//     int i;
+//     for(i = length/2 - 1; i >= 1; --i)
+//             HeapAdjust(L, i, length);
+//     for(i = length - 1; i > 1; --i)
+//     {
+//         swap(L.r[0].key,L.r[i].key);                  //递归调整
+//     }
+// }
+
+int main()
+{
+    SqList L;
+    Input(L);
+    time(&t1);
+    heap_sort_desc(L,MAXSIZE);
+    time(&t2);
+    Output(L);
+    char string[] = "快速排序的时间:";
+    // Output_file(t1,t2,string);
+    printf("%lds\n",t2-t1);
     return 0;
-}  
+}

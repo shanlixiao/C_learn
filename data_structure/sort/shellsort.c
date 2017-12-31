@@ -1,7 +1,7 @@
 #include "head.h"
-void shell_sort(SqList &L,int dk,int length){
+void shell_sort(SqList &L,int dk){
   int i,j;
-  for(i = dk + 1;i <= length;++i){
+  for(i = dk + 1;i <= MAXSIZE;++i){
     if(L.r[i].key < L.r[i-dk].key){
       L.r[0].key = L.r[i].key;
       for(j = i - dk;L.r[0].key < L.r[j].key && j >= 1;j = j - dk){
@@ -12,19 +12,24 @@ void shell_sort(SqList &L,int dk,int length){
   }// for
 }
 
-void shell(SqList L){
+void shell(SqList &L){
   int i;
-  int dk,length = 0;
-  Input(L,length);
-  int df[] = {3,1};
-  for(i = 0;i < 2;++i){
+  int dk;
+  Input(L);
+  int df[] = {15,12,9,6,3,1};
+  for(i = 0;i < 6;++i){
     dk = df[i];
-    shell_sort(L,dk,length);
+    shell_sort(L,dk);
   }
-  Output(L,length);
 }
 int main()
 {
   SqList L;
+  time(&t1);
   shell(L);
+  time(&t2);
+  Output(L);
+  char string[] = "希尔排序的时间:";
+  Output_file(t1,t2,string);
+  return 0;
 }

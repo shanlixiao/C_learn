@@ -29,9 +29,9 @@ int main()
         printf("can not open the file");
         exit(0);
     }
-    for(i = 0;i < 5;i++)
+    for(i = 0;i < 3;i++)
     {
-        fprintf(fp,"%d %s %d %d %d\n",stu[i].stu_num,stu[i].name,stu[i].course1,stu[i].course2,stu[i].course3);
+        fprintf(fp,"%d %s %d %d %d %d\n",stu[i].stu_num,stu[i].name,stu[i].course1,stu[i].course2,stu[i].course3,stu[i].ave);
     }
     return 0;
     
